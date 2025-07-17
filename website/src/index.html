@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECS Website Monitor - AWS Cloud Project</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Background -->
+    <div class="bg-animation">
+        <div class="cloud cloud1"></div>
+        <div class="cloud cloud2"></div>
+        <div class="cloud cloud3"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <i class="fab fa-aws"></i>
+            <span>ECS Website Monitor</span>
+        </div>
+        <nav class="nav">
+            <a href="#about" class="nav-link">About</a>
+            <a href="#services" class="nav-link">Services</a>
+            <a href="#architecture" class="nav-link">Architecture</a>
+            <a href="#deployment" class="nav-link">Deployment</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Cloud-Native Website Monitoring</h1>
+            <p class="hero-subtitle">Powered by AWS ECS, ALB, ECR, and CloudWatch Synthetics</p>
+            <div class="hero-buttons">
+                <a href="#services" class="btn btn-primary">Explore Services</a>
+                <a href="#architecture" class="btn btn-secondary">View Architecture</a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="floating-cloud">
+                <i class="fab fa-aws"></i>
+            </div>
+            <div class="pulse-circle"></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">About This Project</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>
+                        This project demonstrates a modern cloud-native architecture using AWS services 
+                        to deploy and monitor a containerized web application. Built with Terraform 
+                        for infrastructure as code, it showcases best practices in cloud deployment and monitoring.
+                    </p>
+                </div>
+                <div class="about-features">
+                    <div class="feature">
+                        <i class="fas fa-server"></i>
+                        <h3>Containerized</h3>
+                        <p>Docker containers managed by ECS Fargate</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-code-branch"></i>
+                        <h3>Infrastructure as Code</h3>
+                        <p>Terraform modules for AWS resources</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>Monitored</h3>
+                        <p>CloudWatch Synthetics for uptime checks</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>Secure</h3>
+                        <p>Security groups and IAM roles</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section with Cards -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title">AWS Services</h2>
+            <div class="service-cards">
+                <!-- ECS Card -->
+                <div class="service-card">
+                    <div class="card-front">
+                        <div class="card-icon">
+                            <i class="fab fa-docker"></i>
+                        </div>
+                        <h3>Amazon ECS</h3>
+                        <p>Elastic Container Service</p>
+                    </div>
+                    <div class="card-back">
+                        <h3>Amazon ECS</h3>
+                        <ul>
+                            <li>Fargate serverless compute</li>
+                            <li>Auto-scaling capabilities</li>
+                            <li>Container orchestration</li>
+                            <li>Task definitions & services</li>
+                        </ul>
+                        <div class="card-footer">
+                            <i class="fab fa-docker"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ALB Card -->
+                <div class="service-card">
+                    <div class="card-front">
+                        <div class="card-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <h3>Application Load Balancer</h3>
+                        <p>Traffic Distribution</p>
+                    </div>
+                    <div class="card-back">
+                        <h3>Application Load Balancer</h3>
+                        <ul>
+                            <li>HTTP/HTTPS traffic routing</li>
+                            <li>Health checks & monitoring</li>
+                            <li>Multi-AZ deployment</li>
+                            <li>Target groups for ECS tasks</li>
+                        </ul>
+                        <div class="card-footer">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ECR Card -->
+                <div class="service-card">
+                    <div class="card-front">
+                        <div class="card-icon">
+                            <i class="fas fa-archive"></i>
+                        </div>
+                        <h3>Amazon ECR</h3>
+                        <p>Elastic Container Registry</p>
+                    </div>
+                    <div class="card-back">
+                        <h3>Amazon ECR</h3>
+                        <ul>
+                            <li>Private Docker registry</li>
+                            <li>Image vulnerability scanning</li>
+                            <li>Lifecycle policies</li>
+                            <li>Seamless ECS integration</li>
+                        </ul>
+                        <div class="card-footer">
+                            <i class="fas fa-archive"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CloudWatch Card -->
+                <div class="service-card">
+                    <div class="card-front">
+                        <div class="card-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>CloudWatch Synthetics</h3>
+                        <p>Automated Monitoring</p>
+                    </div>
+                    <div class="card-back">
+                        <h3>CloudWatch Synthetics</h3>
+                        <ul>
+                            <li>Canary monitoring</li>
+                            <li>Scheduled health checks</li>
+                            <li>Performance metrics</li>
+                            <li>Automated alerting</li>
+                        </ul>
+                        <div class="card-footer">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Terraform Card -->
+                <div class="service-card">
+                    <div class="card-front">
+                        <div class="card-icon">
+                            <i class="fas fa-cube"></i>
+                        </div>
+                        <h3>Terraform</h3>
+                        <p>Infrastructure as Code</p>
+                    </div>
+                    <div class="card-back">
+                        <h3>Terraform</h3>
+                        <ul>
+                            <li>Modular architecture</li>
+                            <li>Declarative configuration</li>
+                            <li>State management</li>
+                            <li>Resource dependencies</li>
+                        </ul>
+                        <div class="card-footer">
+                            <i class="fas fa-cube"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VPC Card -->
+                <div class="service-card">
+                    <div class="card-front">
+                        <div class="card-icon">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <h3>Amazon VPC</h3>
+                        <p>Virtual Private Cloud</p>
+                    </div>
+                    <div class="card-back">
+                        <h3>Amazon VPC</h3>
+                        <ul>
+                            <li>Isolated network</li>
+                            <li>Public & private subnets</li>
+                            <li>Security groups</li>
+                            <li>Internet gateway</li>
+                        </ul>
+                        <div class="card-footer">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section id="architecture" class="architecture">
+        <div class="container">
+            <h2 class="section-title">Architecture Flow</h2>
+            <div class="architecture-diagram">
+                <!-- User -->
+                <div class="arch-component user">
+                    <div class="component-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="component-label">Users</div>
+                    <div class="component-arrow right"></div>
+                </div>
+
+                <!-- CloudFront -->
+                <div class="arch-component cloudfront">
+                    <div class="component-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <div class="component-label">CloudFront CDN</div>
+                    <div class="component-arrow right"></div>
+                </div>
+
+                <!-- ALB -->
+                <div class="arch-component alb">
+                    <div class="component-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <div class="component-label">Application Load Balancer</div>
+                    <div class="component-arrow right"></div>
+                </div>
+
+                <!-- ECS -->
+                <div class="arch-component ecs">
+                    <div class="component-icon">
+                        <i class="fab fa-docker"></i>
+                    </div>
+                    <div class="component-label">ECS Fargate Cluster</div>
+                    <div class="component-arrow up"></div>
+                    <div class="component-arrow down"></div>
+                </div>
+
+                <!-- ECR -->
+                <div class="arch-component ecr">
+                    <div class="component-icon">
+                        <i class="fas fa-archive"></i>
+                    </div>
+                    <div class="component-label">ECR Registry</div>
+                </div>
+
+                <!-- CloudWatch -->
+                <div class="arch-component cloudwatch">
+                    <div class="component-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="component-label">CloudWatch Synthetics</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Deployment Section -->
+    <section id="deployment" class="deployment">
+        <div class="container">
+            <h2 class="section-title">Deployment Process</h2>
+            <div class="deployment-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Infrastructure Provisioning</h3>
+                        <p>Deploy AWS resources using Terraform modules</p>
+                        <div class="step-icon">
+                            <i class="fas fa-cube"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Container Build & Push</h3>
+                        <p>Build Docker image and push to ECR registry</p>
+                        <div class="step-icon">
+                            <i class="fab fa-docker"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Service Deployment</h3>
+                        <p>Update ECS service with new container image</p>
+                        <div class="step-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Monitoring Activation</h3>
+                        <p>Enable CloudWatch Synthetics monitoring</p>
+                        <div class="step-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fab fa-aws"></i>
+                    <span>ECS Website Monitor</span>
+                </div>
+                <div class="footer-text">
+                    <p>Built with AWS and Terraform</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#" class="footer-link"><i class="fab fa-github"></i></a>
+                    <a href="#" class="footer-link"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="footer-link"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
