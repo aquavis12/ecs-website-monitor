@@ -46,7 +46,7 @@ ecs-website-monitor/
 ### Deployment Steps
 1. **Clone and navigate to the project:**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/aquavis12/ecs-website-monitor.git
    cd ecs-website-monitor
    ```
 
