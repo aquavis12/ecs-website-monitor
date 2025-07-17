@@ -1,11 +1,28 @@
 # ECS Website Monitor Project
 
-A complete AWS infrastructure project that deploys a static website about Cloud and AI using ECS, ALB, ECR, and CloudWatch Synthetics for monitoring. Built with Terraform modules for infrastructure as code.
+A complete AWS infrastructure project that deploys a static website about Cloud and AI using CloudFront, ALB, ECS, and **CloudWatch Synthetics** for advanced monitoring. Built with Terraform modules for infrastructure as code.
+
+> **CloudWatch Synthetics Canary: The Star of the Show**  
+> This project showcases the power of CloudWatch Synthetics Canaries for proactive monitoring, providing real-time insights into website availability and performance from an end-user perspective.
+
+## Why CloudWatch Synthetics is the Star
+
+CloudWatch Synthetics Canaries are the cornerstone of this project, offering capabilities that traditional monitoring solutions can't match:
+
+- **End-User Perspective**: Simulates real user interactions to detect issues before your actual users do
+- **Proactive Monitoring**: Runs scheduled checks every 5 minutes, ensuring constant vigilance
+- **Visual Insights**: Captures screenshots of your website during tests for visual verification
+- **Performance Metrics**: Tracks load times, rendering performance, and resource usage
+- **Global Testing**: Tests your application from multiple AWS regions to ensure global availability
+- **Custom Alerting**: Triggers notifications when availability or performance thresholds are breached
+
+With CloudWatch Synthetics, you're not just monitoring server health—you're ensuring the complete user experience works flawlessly.
 
 ## Architecture
 
-- **ECS Fargate** - Serverless container orchestration
+- **CloudFront** - Global content delivery network
 - **Application Load Balancer** - Traffic distribution and health checks
+- **ECS Fargate** - Serverless container orchestration
 - **ECR** - Private container registry
 - **CloudWatch Synthetics** - Automated website monitoring
 - **Nginx** - High-performance web server for static content
@@ -23,17 +40,18 @@ ecs-website-monitor/
 │   ├── outputs.tf            # Output values
 │   └── modules/
 │       ├── networking/       # VPC, subnets, security groups
-│       ├── ecr/             # Container registry
-│       ├── alb/             # Application Load Balancer
-│       ├── ecs/             # ECS cluster and services
+│       ├── ecr/              # Container registry
+│       ├── cloudfront/       # CloudFront distribution
+│       ├── alb/              # Application Load Balancer
+│       ├── ecs/              # ECS cluster and services
 │       └── monitoring/       # CloudWatch Synthetics
 ├── website/
-│   ├── src/                 # Static website files
-│   │   ├── index.html       # Main HTML page
-│   │   ├── styles.css       # CSS styling
-│   │   └── script.js        # JavaScript functionality
-│   ├── Dockerfile           # Container definition
-└── .gitignore               # Git ignore file
+│   ├── src/                  # Static website files
+│   │   ├── index.html        # Main HTML page
+│   │   ├── styles.css        # Styling and responsive design
+│   │   └── script.js         # Interactive functionality
+│   ├── Dockerfile            # Container definition
+└── .gitignore                # Git ignore file
 ```
 
 ## Quick Start
@@ -82,13 +100,14 @@ ecs-website-monitor/
 4. **Access your website:**
    ```bash
    cd terraform
-   ALB_DNS=$(terraform output -raw alb_dns_name)
-   echo "Website URL: http://$ALB_DNS"
+   CLOUDFRONT_URL=$(terraform output -raw cloudfront_domain_name)
+   echo "Website URL: https://$CLOUDFRONT_URL"
    ```
 
-5. **Monitor via CloudWatch:**
-   - Check CloudWatch Synthetics for automated monitoring
-   - View dashboards for performance metrics
+5. **Monitor via CloudWatch Synthetics:**
+   - Navigate to CloudWatch → Synthetics → Canaries
+   - View detailed monitoring data, screenshots, and logs
+   - Check the automatically created dashboard for performance metrics
 
 ## Terraform Modules
 
@@ -102,6 +121,12 @@ ecs-website-monitor/
 - Configures lifecycle policies for image management
 - Enables vulnerability scanning
 
+### CloudFront Module
+- Sets up global content delivery network
+- Configures origin for ALB
+- Optimizes caching and SSL settings
+- Improves global performance and security
+
 ### ALB Module
 - Sets up Application Load Balancer
 - Configures target groups with health checks
@@ -112,18 +137,24 @@ ecs-website-monitor/
 - Defines task definitions and services
 - Sets up IAM roles and CloudWatch logging
 
-### Monitoring Module
+### Monitoring Module - ⭐ The Star of the Show ⭐
 - Creates CloudWatch Synthetics canary for website monitoring
 - Sets up S3 bucket for synthetics artifacts
 - Configures alarms and dashboards
+- Provides end-to-end user experience monitoring
+- Detects availability issues before your users do
+- Captures screenshots for visual verification
+- Measures critical performance metrics
+- Enables historical trend analysis
 
 ## Features
 
 - **Responsive Design:** Mobile-friendly static website about the project
 - **Container-based Deployment:** Docker containerization with nginx
+- **Global Content Delivery:** CloudFront CDN for low-latency access worldwide
 - **High Availability:** Multi-AZ deployment with auto-scaling
 - **Security:** Security groups, IAM roles, and least privilege access
-- **Monitoring:** Automated synthetic monitoring every 5 minutes
+- **Advanced Monitoring:** CloudWatch Synthetics for proactive testing
 - **Infrastructure as Code:** Modular Terraform configuration
 
 
@@ -161,11 +192,59 @@ Modify files in `website/src/` to customize the website:
 - `styles.css` - Styling and responsive design
 - `script.js` - Interactive functionality
 
-### Monitoring
-Adjust monitoring settings in `terraform/modules/monitoring/`:
-- Canary frequency
-- Alarm thresholds
-- Dashboard metrics
+### CloudWatch Synthetics Configuration
+Adjust monitoring settings in `terraform/modules/monitoring/main.tf`:
+- **Canary Frequency**: Change the `rate(5 minutes)` expression to run tests more or less frequently
+- **Runtime Version**: Update the runtime for newer features
+- **Retention Periods**: Modify how long successful and failed test artifacts are stored
+- **Alarm Thresholds**: Adjust when alerts are triggered based on availability percentage
+
+```hcl
+# CloudWatch Synthetics Canary
+resource "aws_synthetics_canary" "website" {
+  name                 = "${var.project_name}-canary"
+  artifact_s3_location = "s3://${aws_s3_bucket.synthetics.bucket}/"
+  execution_role_arn   = aws_iam_role.synthetics.arn
+  handler              = "pageLoadBlueprint.handler"
+  zip_file             = "pageLoadBlueprint.zip"
+  runtime_version      = "syn-nodejs-puppeteer-6.2"
+
+  schedule {
+    expression = "rate(5 minutes)"  # Adjust frequency here
+  }
+
+  run_config {
+    timeout_in_seconds = 60
+  }
+
+  success_retention_period = 2  # Days to retain successful test artifacts
+  failure_retention_period = 10 # Days to retain failed test artifacts
+}
+```
+
+## Viewing CloudWatch Synthetics Results
+
+After deployment, you can access detailed monitoring data:
+
+1. **Navigate to CloudWatch Synthetics Console**:
+   - Go to AWS Console → CloudWatch → Synthetics → Canaries
+   - Select your canary (named after your project)
+
+2. **View Test Results**:
+   - **Availability**: Percentage of successful tests
+   - **Screenshots**: Visual captures of your website during tests
+   - **Duration**: Load time metrics
+   - **HTTP Status**: Response codes from your website
+   - **Step Duration**: Breakdown of each test step's performance
+
+3. **Analyze Trends**:
+   - View historical data to identify performance patterns
+   - Compare metrics across different time periods
+   - Identify potential issues before they impact users
+
+4. **Check Alarms**:
+   - Review any triggered alarms
+   - Adjust thresholds based on your requirements
 
 ## Cleanup
 
@@ -199,7 +278,13 @@ This prevents the common issue where S3 buckets can't be deleted due to containi
    - Check ALB target group health in AWS Console
    - Verify security groups allow inbound traffic on port 80
 
-4. **Terraform Apply Fails:**
+4. **CloudWatch Synthetics Failures:**
+   - Check the screenshots to identify visual issues
+   - Review HTTP status codes for server-side problems
+   - Examine step duration metrics for performance bottlenecks
+   - Verify the canary has proper permissions to access your website
+
+5. **Terraform Apply Fails:**
    - Check AWS credentials and permissions
    - Ensure you have permissions for ECS, ECR, ALB, VPC, IAM, CloudWatch
    - Try applying specific modules first: `terraform apply -target=module.networking`
@@ -218,6 +303,12 @@ aws ecr list-images --repository-name ecs-website-monitor-website
 
 # Force ECS service update
 aws ecs update-service --cluster ecs-website-monitor-cluster --service ecs-website-monitor-service --force-new-deployment
+
+# Get CloudWatch Synthetics canary status
+aws synthetics get-canary --name ecs-website-monitor-canary
+
+# View recent canary runs
+aws synthetics list-canary-runs --name ecs-website-monitor-canary
 ```
 
 ## Cost Optimization
@@ -225,6 +316,7 @@ aws ecs update-service --cluster ecs-website-monitor-cluster --service ecs-websi
 This project is designed to be cost-effective:
 - Uses ECS Fargate (pay per use)
 - Minimal resource allocation (256 CPU, 512 MB memory)
-- CloudWatch Synthetics runs every 5 minutes
+- CloudWatch Synthetics runs every 5 minutes (configurable)
 - S3 bucket for synthetics artifacts with lifecycle policies
 - CloudWatch logs retention set to 7 days
+- CloudFront optimized for cost with PriceClass_100 (North America and Europe)

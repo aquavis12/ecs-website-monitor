@@ -9,5 +9,5 @@ environment  = "dev"
 vpc_cidr = "10.0.0.0/16"
 
 # Application Configuration
-container_port      = 80
-health_check_path   = "/"
+container_port    = 80
+health_check_path = "/"

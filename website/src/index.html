@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="styles.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
+
 <body>
     <!-- Background -->
     <div class="bg-animation">
@@ -33,7 +35,10 @@
     <section class="hero">
         <div class="hero-content">
             <h1 class="hero-title">Cloud-Native Website Monitoring</h1>
-            <p class="hero-subtitle">Powered by AWS ECS, ALB, ECR, and CloudWatch Synthetics</p>
+            <p class="hero-subtitle">Powered by CloudFront, ALB, ECS, and <span class="highlight">CloudWatch Synthetics</span></p>
+            <div class="hero-badge">
+                <i class="fas fa-star"></i> Featuring CloudWatch Synthetics Canary
+            </div>
             <div class="hero-buttons">
                 <a href="#services" class="btn btn-primary">Explore Services</a>
                 <a href="#architecture" class="btn btn-secondary">View Architecture</a>
@@ -54,8 +59,8 @@
             <div class="about-content">
                 <div class="about-text">
                     <p>
-                        This project demonstrates a modern cloud-native architecture using AWS services 
-                        to deploy and monitor a containerized web application. Built with Terraform 
+                        This project demonstrates a modern cloud-native architecture using AWS services
+                        to deploy and monitor a containerized web application. Built with Terraform
                         for infrastructure as code, it showcases best practices in cloud deployment and monitoring.
                     </p>
                 </div>
@@ -159,8 +164,32 @@
                     </div>
                 </div>
 
-                <!-- CloudWatch Card -->
+                <!-- CloudFront Card -->
                 <div class="service-card">
+                    <div class="card-front">
+                        <div class="card-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h3>CloudFront</h3>
+                        <p>Content Delivery Network</p>
+                    </div>
+                    <div class="card-back">
+                        <h3>CloudFront</h3>
+                        <ul>
+                            <li>Global content delivery</li>
+                            <li>Edge caching</li>
+                            <li>HTTPS encryption</li>
+                            <li>DDoS protection</li>
+                        </ul>
+                        <div class="card-footer">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CloudWatch Card - Star of the Show -->
+                <div class="service-card featured">
+                    <div class="featured-badge"><i class="fas fa-star"></i> Featured</div>
                     <div class="card-front">
                         <div class="card-icon">
                             <i class="fas fa-chart-line"></i>
@@ -175,6 +204,8 @@
                             <li>Scheduled health checks</li>
                             <li>Performance metrics</li>
                             <li>Automated alerting</li>
+                            <li>End-user perspective</li>
+                            <li>Screenshot capture</li>
                         </ul>
                         <div class="card-footer">
                             <i class="fas fa-chart-line"></i>
@@ -368,4 +399,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>
