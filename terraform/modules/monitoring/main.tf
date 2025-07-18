@@ -23,7 +23,7 @@ resource "aws_iam_role" "synthetics" {
 
 resource "aws_iam_role_policy_attachment" "synthetics" {
   role       = aws_iam_role.synthetics.name
-  policy_arn = "arn:aws:iam::aws:policy/CloudWatchSyntheticsExecutionRolePolicy"
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchSyntheticsFullAccess"
 }
 
 # S3 Bucket for Synthetics artifacts
@@ -52,14 +52,23 @@ resource "random_string" "bucket_suffix" {
   upper   = false
 }
 
-# CloudWatch Synthetics Canary
+
+resource "aws_s3_object" "canary_zip" {
+  bucket = aws_s3_bucket.synthetics.bucket
+  key    = "canary/heartbeat.zip"
+source = "${path.module}/canary.zip"
+}
+
 resource "aws_synthetics_canary" "website" {
   name                 = "${var.project_name}-canary"
   artifact_s3_location = "s3://${aws_s3_bucket.synthetics.bucket}/"
   execution_role_arn   = aws_iam_role.synthetics.arn
-  handler              = "pageLoadBlueprint.handler"
-  zip_file             = "pageLoadBlueprint.zip"
   runtime_version      = "syn-nodejs-puppeteer-6.2"
+  handler              = "index.handler"
+
+  # Use a source location from S3
+  s3_bucket = aws_s3_bucket.synthetics.bucket
+  s3_key    = aws_s3_object.canary_zip.key
 
   schedule {
     expression = "rate(5 minutes)"
@@ -67,8 +76,12 @@ resource "aws_synthetics_canary" "website" {
 
   run_config {
     timeout_in_seconds = 60
+    environment_variables = {
+      URL = var.website_url
+    }
   }
 
+  depends_on               = [aws_s3_object.canary_zip]
   success_retention_period = 2
   failure_retention_period = 10
 

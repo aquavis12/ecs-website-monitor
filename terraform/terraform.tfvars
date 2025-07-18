@@ -2,7 +2,7 @@
 aws_region = "us-east-1"
 
 # Project Configuration
-project_name = "ecs-website-monitor"
+project_name = "cloudwatch-synthetics-demo-website"
 environment  = "dev"
 
 # Network Configuration

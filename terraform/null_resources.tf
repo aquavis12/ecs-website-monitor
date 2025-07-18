@@ -1,19 +1,17 @@
-# Null resource to clean up S3 bucket during destroy
-resource "null_resource" "s3_cleanup" {
+resource "null_resource" "combined_cleanup" {
   triggers = {
-    bucket_name = module.monitoring.s3_bucket_name
-    aws_region  = var.aws_region
+    s3_bucket_name = module.monitoring.s3_bucket_name
+    aws_region     = var.aws_region
   }
 
   provisioner "local-exec" {
-    when    = destroy
-    command = "aws s3 rm s3://${self.triggers.bucket_name} --recursive --region ${self.triggers.aws_region} || echo 'S3 bucket cleanup completed or bucket was already empty'"
+    when        = destroy
+    interpreter = ["cmd", "/C"]
+    command     = "aws s3 rm s3://${self.triggers.s3_bucket_name} --recursive --region ${self.triggers.aws_region} || echo S3 bucket already empty or deleted"
   }
 
-  provisioner "local-exec" {
-    when    = destroy
-    command = "aws s3api delete-bucket-versioning --bucket ${self.triggers.bucket_name} --versioning-configuration Status=Suspended --region ${self.triggers.aws_region} || echo 'Versioning already disabled or bucket does not exist'"
-  }
 
-  depends_on = [module.monitoring]
+  depends_on = [
+    module.monitoring,
+  ]
 }
