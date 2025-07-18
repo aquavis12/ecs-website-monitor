@@ -4,7 +4,7 @@ A comprehensive demonstration of **AWS CloudWatch Synthetics Canary** capabiliti
 
 > **Understanding CloudWatch Synthetics Canaries**  
 > This project is primarily focused on demonstrating how CloudWatch Synthetics Canaries work to provide proactive monitoring from an end-user perspective. The containerized website deployment using ECS serves as the application being monitored.
-[Canary types](image.png)
+[Canary types](/website/src/canary%20types.png)
 
 ## Why CloudWatch Synthetics is the Star
 
