@@ -4,6 +4,7 @@ A comprehensive demonstration of **AWS CloudWatch Synthetics Canary** capabiliti
 
 > **Understanding CloudWatch Synthetics Canaries**  
 > This project is primarily focused on demonstrating how CloudWatch Synthetics Canaries work to provide proactive monitoring from an end-user perspective. The containerized website deployment using ECS serves as the application being monitored.
+[Canary types](image.png)
 
 ## Why CloudWatch Synthetics is the Star
 
@@ -93,10 +94,10 @@ AWS_REGION="us-east-1"  # or your preferred region
 aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REPO
 
 # Build the Docker image
-docker build -t ecs-website-monitor .
+docker build -t cloudwatch-synthetics-demo-website .
 
 # Tag the image for ECR
-docker tag ecs-website-monitor:latest $ECR_REPO:latest
+docker tag cloudwatch-synthetics-demo-website:latest $ECR_REPO:latest
 
 # Push the image to ECR
 docker push $ECR_REPO:latest
@@ -275,12 +276,6 @@ cd terraform
 terraform destroy
 ```
 
-**Note:** The infrastructure includes automatic S3 bucket cleanup during destroy phase. The null resource will:
-- Remove all objects from the CloudWatch Synthetics S3 bucket
-- Disable versioning if enabled
-- Allow Terraform to successfully delete the bucket
-
-This prevents the common issue where S3 buckets can't be deleted due to containing objects.
 
 ## Troubleshooting
 

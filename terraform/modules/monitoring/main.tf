@@ -9,7 +9,7 @@ resource "aws_iam_role" "synthetics" {
         Action = "sts:AssumeRole"
         Effect = "Allow"
         Principal = {
-          Service = "lambda.amazonaws.com"
+          Service = "synthetics.amazonaws.com"
         }
       }
     ]
@@ -24,6 +24,15 @@ resource "aws_iam_role" "synthetics" {
 resource "aws_iam_role_policy_attachment" "synthetics" {
   role       = aws_iam_role.synthetics.name
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchSyntheticsFullAccess"
+}
+resource "aws_iam_role_policy_attachment" "cw_full_access" {
+  role       = aws_iam_role.synthetics.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "s3_full_access" {
+  role       = aws_iam_role.synthetics.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
 }
 
 # S3 Bucket for Synthetics artifacts
