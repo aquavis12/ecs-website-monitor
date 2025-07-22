@@ -122,56 +122,6 @@ echo "Website URL: https://$CLOUDFRONT_URL"
 - View detailed monitoring data, screenshots, and logs
 - Check the automatically created dashboard for performance metrics
 
-## Terraform Modules
-
-### Networking Module
-- Creates VPC with public subnets across multiple AZs
-- Sets up Internet Gateway and routing
-- Configures security groups for ALB and ECS
-
-### ECR Module
-- Creates private ECR repository
-- Configures lifecycle policies for image management
-- Enables vulnerability scanning
-
-### CloudFront Module
-- Sets up global content delivery network
-- Configures origin for ALB
-- Optimizes caching and SSL settings
-- Improves global performance and security
-
-### ALB Module
-- Sets up Application Load Balancer
-- Configures target groups with health checks
-- Creates security groups for web traffic
-
-### ECS Module
-- Creates ECS Fargate cluster with Container Insights
-- Defines task definitions and services
-- Sets up IAM roles and CloudWatch logging
-
-### Monitoring Module - ⭐ The Star of the Show ⭐
-- Creates CloudWatch Synthetics canary for website monitoring
-- Uses custom script to check website availability and take screenshots
-- Sets up S3 bucket for synthetics artifacts with proper security controls
-- Configures CloudWatch alarms for availability monitoring
-- Creates custom CloudWatch dashboards for visualization
-- Provides end-to-end user experience monitoring through CloudFront
-- Detects availability issues before your users do
-- Captures screenshots for visual verification
-- Measures critical performance metrics like response time
-- Enables historical trend analysis
-
-## Features
-
-- **Responsive Design:** Mobile-friendly static website about the project
-- **Container-based Deployment:** Docker containerization with nginx
-- **Global Content Delivery:** CloudFront CDN for low-latency access worldwide
-- **High Availability:** Multi-AZ deployment with auto-scaling
-- **Security:** Security groups, IAM roles, and least privilege access
-- **Advanced Monitoring:** CloudWatch Synthetics for proactive testing
-- **Infrastructure as Code:** Modular Terraform configuration
-
 
 ## Customization
 
@@ -207,14 +157,6 @@ Modify files in `website/src/` to customize the website:
 - `styles.css` - Styling and responsive design
 - `script.js` - Interactive functionality
 
-### CloudWatch Synthetics Configuration
-Adjust monitoring settings in `terraform/modules/monitoring/main.tf`:
-- **Canary Frequency**: Change the `rate(5 minutes)` expression to run tests more or less frequently
-- **Runtime Version**: Update the runtime for newer features
-- **Retention Periods**: Modify how long successful and failed test artifacts are stored
-- **Alarm Thresholds**: Adjust when alerts are triggered based on availability percentage
-- **Custom Script**: Modify the canary script to add more checks or functionality
-
 ```hcl
 # CloudWatch Synthetics Canary with Custom Script
 resource "aws_synthetics_canary" "website" {
@@ -244,31 +186,6 @@ resource "aws_synthetics_canary" "website" {
 }
 
 ```
-
-## Viewing CloudWatch Synthetics Results
-
-After deployment, you can access detailed monitoring data:
-
-1. **Navigate to CloudWatch Synthetics Console**:
-   - Go to AWS Console → CloudWatch → Synthetics → Canaries
-   - Select your canary (named after your project)
-
-2. **View Test Results**:
-   - **Availability**: Percentage of successful tests
-   - **Screenshots**: Visual captures of your website during tests
-   - **Duration**: Load time metrics
-   - **HTTP Status**: Response codes from your website
-   - **Step Duration**: Breakdown of each test step's performance
-
-3. **Analyze Trends**:
-   - View historical data to identify performance patterns
-   - Compare metrics across different time periods
-   - Identify potential issues before they impact users
-
-4. **Check Alarms**:
-   - Review any triggered alarms
-   - Adjust thresholds based on your requirements
-
 ## Cleanup
 
 To destroy all resources:
@@ -276,8 +193,6 @@ To destroy all resources:
 cd terraform
 terraform destroy
 ```
-
-
 ## Troubleshooting
 
 ### Common Issues
